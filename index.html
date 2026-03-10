@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320, initial-scale=1">
+    <title>Memory Banner</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+        }
+
+        #banner {
+            width: 320px;
+            height: 480px;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+            color: white;
+        }
+
+        .frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        /* VIDEO */
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button {
+            padding: 6px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* INFO FRAME */
+
+        #infoFrame {
+            background: #0f172a;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .preview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            padding: 20px;
+        }
+
+        .preview img {
+            width: 100%;
+            border-radius: 6px;
+        }
+
+        /* GAME */
+
+        #gameFrame {
+            background: #020617;
+            padding: 10px;
+        }
+
+        #hud {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            perspective: 800px;
+        }
+
+        .card {
+            aspect-ratio: 1/1;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+
+        .card img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            backface-visibility: hidden;
+            border-radius: 6px;
+        }
+
+        .front {
+            transform: rotateY(180deg);
+        }
+
+        .matched {
+            outline: 3px solid #22c55e;
+        }
+
+        /* OOPS */
+
+        #oops {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* RESULT */
+
+        #resultFrame {
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="banner">
+
+        <!-- VIDEO FRAME -->
+
+        <div id="videoFrame" class="frame show">
+
+            <video id="video" autoplay muted playsinline>
+                <source src="media/320x480.mp4" type="video/mp4">
+            </video>
+
+            <div class="controls">
+                <button onclick="toggleMute()">Mute</button>
+                <button onclick="togglePlay()">Pause</button>
+                <button onclick="skipVideo()">Skip</button>
+            </div>
+
+        </div>
+
+        <!-- INFO FRAME -->
+
+        <div id="infoFrame" class="frame">
+
+            <h2>Memory Match</h2>
+            <p>Match the 4 images below</p>
+
+            <div class="preview">
+                <img src="media/a.png">
+                <img src="media/b.png">
+                <img src="media/c.png">
+                <img src="media/d.png">
+            </div>
+
+            <button onclick="startGame()">Start Game</button>
+
+        </div>
+
+        <!-- GAME FRAME -->
+
+        <div id="gameFrame" class="frame">
+
+            <div id="hud">
+                <div>Score: <span id="score">0</span></div>
+                <div>Time: <span id="time">60</span></div>
+            </div>
+
+            <div id="grid"></div>
+
+            <div id="oops">Oops!</div>
+
+        </div>
+
+        <!-- RESULT FRAME -->
+
+        <div id="resultFrame" class="frame">
+
+            <h2 id="resultText"></h2>
+
+            <button onclick="restart()">Play Again</button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const images = [
+            "media/a.png",
+            "media/b.png",
+            "media/c.png",
+            "media/d.png"
+        ]
+
+        const flipSound = new Audio("media/FlipSound.mp3")
+        const matchSound = new Audio("media/MatchSound.mp3")
+
+        let first = null
+        let second = null
+        let lock = false
+        let score = 0
+        let time = 60
+        let timer
+        let cards = []
+
+        const grid = document.getElementById("grid")
+
+        function showFrame(id) {
+
+            document.querySelectorAll(".frame").forEach(f => f.classList.remove("show"))
+            document.getElementById(id).classList.add("show")
+
+        }
+
+        /* VIDEO */
+
+        const video = document.getElementById("video")
+
+        video.onended = () => showFrame("infoFrame")
+
+        function toggleMute() {
+            video.muted = !video.muted
+        }
+
+        function togglePlay() {
+            if (video.paused) video.play()
+            else video.pause()
+        }
+
+        function skipVideo() {
+            video.pause()
+            showFrame("infoFrame")
+        }
+
+        /* SHUFFLE */
+
+        function shuffle(a) {
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1))
+                [a[i], a[j]] = [a[j], a[i]]
+            }
+        }
+
+        /* BUILD BOARD */
+
+        function buildBoard() {
+
+            grid.innerHTML = ""
+
+            cards = [...images, ...images]
+
+            shuffle(cards)
+
+            cards.forEach(src => {
+
+                const card = document.createElement("div")
+
+                card.className = "card"
+                card.dataset.src = src
+                card.rotation = 0
+
+                card.innerHTML = `
+                <img class="back" src="media/back.png">
+                <img class="front" src="${src}">
+                `
+
+                card.onclick = () => flip(card)
+
+                grid.appendChild(card)
+
+            })
+
+            gsap.from(".card", {
+                scale: 0,
+                duration: .4,
+                stagger: .05,
+                ease: "back.out(1.7)"
+            })
+
+        }
+
+        /* FLIP CARD */
+
+        function flip(card) {
+
+            if (lock) return
+            if (card === first) return
+            if (card.classList.contains("matched")) return
+
+            flipSound.currentTime = 0
+            flipSound.play()
+
+            gsap.to(card, {
+                rotationY: 180,
+                duration: .4,
+                ease: "power2.out"
+            })
+
+            if (!first) {
+                first = card
+                return
+            }
+
+            second = card
+
+            checkMatch()
+
+        }
+
+        /* CHECK MATCH */
+
+        function checkMatch() {
+
+            if (first.dataset.src === second.dataset.src) {
+
+                gsap.to([first, second], {
+                    scale: 1.15,
+                    duration: .2,
+                    yoyo: true,
+                    repeat: 1
+                })
+
+                first.classList.add("matched")
+                second.classList.add("matched")
+
+                matchSound.currentTime = 0
+                matchSound.play()
+
+                score++
+
+                document.getElementById("score").textContent = score
+
+                reset()
+
+                if (score === 4) {
+                    winGame()
+                }
+
+            } else {
+
+                lock = true
+
+                showOops()
+
+                setTimeout(() => {
+
+                    gsap.to(first, { rotationY: 0, duration: .4 })
+                    gsap.to(second, { rotationY: 0, duration: .4 })
+
+                    reset()
+
+                }, 800)
+
+            }
+
+        }
+
+        function reset() {
+            [first, second, lock] = [null, null, false]
+        }
+
+        /* OOPS ANIMATION */
+
+        function showOops() {
+
+            const el = document.getElementById("oops")
+
+            gsap.fromTo(el,
+                { scale: 0.5, opacity: 0 },
+                {
+                    scale: 1.3,
+                    opacity: 1,
+                    duration: .3,
+                    ease: "back.out(3)",
+                    onComplete: () => {
+                        gsap.to(el, {
+                            opacity: 0,
+                            scale: 0.8,
+                            delay: .4,
+                            duration: .3
+                        })
+                    }
+                })
+
+        }
+
+        /* TIMER */
+
+        function startTimer() {
+
+            timer = setInterval(() => {
+
+                time--
+
+                document.getElementById("time").textContent = time
+
+                if (time <= 0) {
+                    loseGame()
+                }
+
+            }, 1000)
+
+        }
+
+        /* START GAME */
+
+        function startGame() {
+
+            showFrame("gameFrame")
+
+            score = 0
+            time = 60
+
+            document.getElementById("score").textContent = 0
+            document.getElementById("time").textContent = 60
+
+            buildBoard()
+
+            startTimer()
+
+        }
+
+        /* WIN */
+
+        function winGame() {
+
+            clearInterval(timer)
+
+            document.getElementById("resultText").innerText = "You Win!"
+
+            gsap.from("#resultText", { scale: 0, duration: .6, ease: "back.out(2)" })
+
+            showFrame("resultFrame")
+
+        }
+
+        /* LOSE */
+
+        function loseGame() {
+
+            clearInterval(timer)
+
+            document.getElementById("resultText").innerText = "You Lose!"
+
+            gsap.from("#resultText", { scale: 0, duration: .6, ease: "back.out(2)" })
+
+            showFrame("resultFrame")
+
+        }
+
+        /* RESTART */
+
+        function restart() {
+
+            showFrame("gameFrame")
+
+            score = 0
+            time = 60
+
+            document.getElementById("score").textContent = 0
+            document.getElementById("time").textContent = 60
+
+            buildBoard()
+
+            startTimer()
+
+        }
+
+    </script>
+
+</body>
+
+</html>

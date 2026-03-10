@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=320, initial-scale=1">
-    <title>Memory Banner</title>
+    <title>RMB - Lego</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="js/gsap.min.js"></script>
 
     <style>
         body {
             margin: 0;
-            font-family: Arial;
+            font-family: Arial, sans-serif;
         }
 
         #banner {
@@ -30,8 +30,20 @@
             display: none;
         }
 
-        .show {
+        .frame.show {
             display: block;
+        }
+
+        #infoFrame.show {
+            display: flex;
+        }
+
+        #gameFrame.show {
+            display: flex;
+        }
+
+        #resultFrame.show {
+            display: flex;
         }
 
         /* VIDEO */
@@ -44,77 +56,180 @@
 
         .controls {
             position: absolute;
-            bottom: 10px;
+            bottom: 48px;
             left: 0;
             right: 0;
             display: flex;
-            justify-content: center;
-            gap: 8px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 0;
         }
 
-        button {
-            padding: 6px 10px;
-            font-size: 12px;
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .controls-left button {
+            background: none;
             border: none;
-            border-radius: 4px;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 8px 12px;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .controls-left .separator {
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        .skip-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 8px 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* INFO FRAME */
 
         #infoFrame {
-            background: #0f172a;
+            background: #FEE451;
             text-align: center;
-            padding-top: 40px;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
         }
 
-        .preview {
+        #infoFrame .lego-logo {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+        }
+
+        #infoFrame h2 {
+            font-size: 24px;
+            font-weight: 900;
+            color: #000;
+            margin: 96px 0 0 0;
+            letter-spacing: 1px;
+        }
+
+        #infoFrame .subtitle {
+            font-size: 10px;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        #infoFrame .preview {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            padding: 20px;
+            gap: 12px;
+            padding: 0 30px;
+            margin-bottom: 20px;
         }
 
-        .preview img {
+        #infoFrame .preview img {
             width: 100%;
-            border-radius: 6px;
+            height: 64px;
         }
 
-        /* GAME */
+        #infoFrame .start-btn {
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+
+        #infoFrame .content-layer {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* GAME FRAME */
 
         #gameFrame {
-            background: #020617;
-            padding: 10px;
+            background: #FEE451;
+            padding: 0;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        #hud {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
+        #gameFrame .game-header {
+            text-align: center;
+            padding: 12px 0 4px 0;
+            flex-shrink: 0;
+        }
+
+        #gameFrame .timer-bar {
+            margin: auto;
+            width: 40%;
+            background: #000;
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            padding: 6px 8px;
+        }
+
+        #gameFrame .game-title {
+            color: #000;
+            font-size: 16px;
+            font-weight: 800;
+            margin: 8px 0 2px 0;
+        }
+
+        #gameFrame .game-subtitle {
+            color: #000;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
         }
 
         #grid {
+            flex: 1;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            perspective: 800px;
+            grid-template-columns: repeat(2, auto);
+            gap: 16px 42px;
+            justify-content: center;
+            align-content: center;
+            padding: 8px 16px;
+            margin-bottom: 16px;
         }
 
         .card {
-            aspect-ratio: 1/1;
-            position: relative;
             cursor: pointer;
             transform-style: preserve-3d;
         }
 
         .card img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            display: block;
             backface-visibility: hidden;
-            border-radius: 6px;
+        }
+
+        .card .front {
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .front {
@@ -122,7 +237,7 @@
         }
 
         .matched {
-            outline: 3px solid #22c55e;
+            outline: 3px solid #E1010C;
         }
 
         /* OOPS */
@@ -132,21 +247,38 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 36px;
-            font-weight: bold;
             opacity: 0;
             pointer-events: none;
+            z-index: 10;
         }
 
         /* RESULT */
 
         #resultFrame {
-            background: #0f172a;
-            display: flex;
+            background: #FEE451;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
+        }
+
+        #resultFrame h2 {
+            font-size: 32px;
+            font-weight: 900;
+            color: #4CAF50;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        #resultFrame .replay-btn {
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        #resultFrame .replay-btn img {
+            height: 40px;
         }
     </style>
 </head>
@@ -164,9 +296,12 @@
             </video>
 
             <div class="controls">
-                <button onclick="toggleMute()">Mute</button>
-                <button onclick="togglePlay()">Pause</button>
-                <button onclick="skipVideo()">Skip</button>
+                <div class="controls-left">
+                    <button onclick="toggleMute()">MUTE</button>
+                    <span class="separator">|</span>
+                    <button onclick="togglePlay()">PAUSE</button>
+                </div>
+                <button class="skip-btn" onclick="skipVideo()">SKIP</button>
             </div>
 
         </div>
@@ -175,17 +310,25 @@
 
         <div id="infoFrame" class="frame">
 
-            <h2>Memory Match</h2>
-            <p>Match the 4 images below</p>
+            <div class="content-layer">
 
-            <div class="preview">
-                <img src="media/a.png">
-                <img src="media/b.png">
-                <img src="media/c.png">
-                <img src="media/d.png">
+                <img class="lego-logo" src="media/logo.jpg">
+                
+                <h2>MEMORY GAME</h2>
+                <p class="subtitle">COCOKKAN GAMBAR-GAMBAR DIBAWAH INI</p>
+
+                <div class="preview">
+                    <img src="media/a.png">
+                    <img src="media/b.png">
+                    <img src="media/c.png">
+                    <img src="media/d.png">
+                </div>
+
+                <button class="start-btn" onclick="startGame()">
+                    <img src="media/start-btn.png" alt="Mulai Main">
+                </button>
+
             </div>
-
-            <button onclick="startGame()">Start Game</button>
 
         </div>
 
@@ -193,14 +336,15 @@
 
         <div id="gameFrame" class="frame">
 
-            <div id="hud">
-                <div>Score: <span id="score">0</span></div>
-                <div>Time: <span id="time">60</span></div>
+            <div class="game-header">
+                <div class="timer-bar"><span id="time">60</span> DETIK</div>
+                <div class="game-title">MEMORY GAME</div>
+                <div class="game-subtitle">COCOKKAN GAMBAR-GAMBAR DIBAWAH INI</div>
             </div>
 
             <div id="grid"></div>
 
-            <div id="oops">Oops!</div>
+            <img id="oops" src="media/oops.png">
 
         </div>
 
@@ -210,7 +354,9 @@
 
             <h2 id="resultText"></h2>
 
-            <button onclick="restart()">Play Again</button>
+            <button class="replay-btn" onclick="restart()">
+                <img src="media/replay-btn.png" alt="Main Lagi">
+            </button>
 
         </div>
 
@@ -269,7 +415,7 @@
 
         function shuffle(a) {
             for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1))
+                const j = Math.floor(Math.random() * (i + 1));
                 [a[i], a[j]] = [a[j], a[i]]
             }
         }
@@ -361,9 +507,7 @@
 
                 score++
 
-                document.getElementById("score").textContent = score
-
-                reset()
+                resetPair()
 
                 if (score === 4) {
                     winGame()
@@ -373,14 +517,18 @@
 
                 lock = true
 
-                showOops()
+                setTimeout(() => {
+
+                    showOops()
+
+                }, 400)
 
                 setTimeout(() => {
 
                     gsap.to(first, { rotationY: 0, duration: .4 })
                     gsap.to(second, { rotationY: 0, duration: .4 })
 
-                    reset()
+                    resetPair()
 
                 }, 800)
 
@@ -388,7 +536,7 @@
 
         }
 
-        function reset() {
+        function resetPair() {
             [first, second, lock] = [null, null, false]
         }
 
@@ -444,7 +592,6 @@
             score = 0
             time = 60
 
-            document.getElementById("score").textContent = 0
             document.getElementById("time").textContent = 60
 
             buildBoard()
@@ -459,7 +606,7 @@
 
             clearInterval(timer)
 
-            document.getElementById("resultText").innerText = "You Win!"
+            document.getElementById("resultText").innerText = "ANDA MENANG!"
 
             gsap.from("#resultText", { scale: 0, duration: .6, ease: "back.out(2)" })
 
@@ -473,7 +620,7 @@
 
             clearInterval(timer)
 
-            document.getElementById("resultText").innerText = "You Lose!"
+            document.getElementById("resultText").innerText = "ANDA KALAH!"
 
             gsap.from("#resultText", { scale: 0, duration: .6, ease: "back.out(2)" })
 
@@ -490,7 +637,6 @@
             score = 0
             time = 60
 
-            document.getElementById("score").textContent = 0
             document.getElementById("time").textContent = 60
 
             buildBoard()

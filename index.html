@@ -302,9 +302,13 @@
 
         <div id="videoFrame" class="frame show">
 
-            <video id="video" autoplay muted playsinline>
+            <video id="video" autoplay muted playsinline webkit-playsinline>
                 <source src="media/320x480.mp4" type="video/mp4">
             </video>
+
+            <div id="videoOverlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);cursor:pointer;z-index:5">
+                <span style="color:#fff;font-size:18px;font-weight:bold">TAP TO PLAY</span>
+            </div>
 
             <div class="controls">
                 <div class="controls-left">
@@ -537,8 +541,21 @@
         /* VIDEO */
 
         const video = document.getElementById("video")
+        const videoOverlay = document.getElementById("videoOverlay")
 
         video.onended = () => showFrame("infoFrame")
+
+        // Safari autoplay fix
+        var playAttempt = video.play()
+        if (playAttempt !== undefined) {
+            playAttempt.catch(function() {
+                videoOverlay.style.display = "flex"
+                videoOverlay.onclick = function() {
+                    videoOverlay.style.display = "none"
+                    video.play()
+                }
+            })
+        }
 
         function toggleMute() {
             video.muted = !video.muted
@@ -653,7 +670,8 @@
                 resetPair()
 
                 if (score === 4) {
-                    winGame()
+                    lock = true
+                    setTimeout(winGame, 400)
                 }
 
             } else {

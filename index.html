@@ -9,6 +9,11 @@
     <script src="js/gsap.min.js"></script>
 
     <style>
+        @font-face {
+            font-family: "BlinkerBold";
+            src: url("fonts/blinkerbold.ttf") format("truetype");
+        }
+            
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -42,11 +47,19 @@
             display: flex;
         }
 
+        #loseFrame.show {
+            display: flex;
+        }
+
         #resultFrame.show {
             display: flex;
         }
 
         /* VIDEO */
+
+        #videoFrame {
+            background: url("media/bg-awal.jpg") center / cover no-repeat;
+        }
 
         video {
             width: 100%;
@@ -68,83 +81,92 @@
         .controls-left {
             display: flex;
             align-items: center;
-            gap: 0;
+            padding: 0 8px;
+            gap: 4px;
         }
 
-        .controls-left button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 8px 12px;
+        .controls-left div {
+            width: 40px;
+            height: 40px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .controls-left .separator {
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-            user-select: none;
         }
 
         .skip-btn {
-            background: rgba(0, 0, 0, 0.6);
-            border: none;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 8px 12px;
+            width: 80px;
+            height: 40px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         /* INFO FRAME */
 
         #infoFrame {
-            background: #FEE451;
+            background: url("media/bg-awal.jpg") center / cover no-repeat;
             text-align: center;
             flex-direction: column;
             align-items: center;
             position: relative;
         }
 
-        #infoFrame .lego-logo {
+        #infoFrame .header {
             position: absolute;
-            top: 18px;
-            left: 18px;
+            top: 0;
+            left: 0;
+            width: 320px;
         }
 
-        #infoFrame h2 {
-            font-size: 24px;
-            font-weight: 900;
-            color: #000;
-            margin: 96px 0 0 0;
-            letter-spacing: 1px;
+        #infoFrame .char {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 320px;
         }
 
-        #infoFrame .subtitle {
-            font-size: 10px;
-            font-weight: 800;
-            color: #000;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
+        #infoFrame .title {
+            width: 246px;
+            margin: 100px 0 36px 0;
         }
 
         #infoFrame .preview {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 0px;
             padding: 0 30px;
-            margin-bottom: 20px;
+            margin-bottom: 36px;
         }
 
         #infoFrame .preview img {
-            width: 100%;
-            height: 64px;
+            width: 72px;
+            height: 72px;
+        }
+
+        #infoFrame .preview img:nth-child(1) {
+            z-index: 2;
+        }
+
+        #infoFrame .preview img:nth-child(2) {
+            z-index: 1;
+        }
+
+        #infoFrame .preview img:nth-child(3) {
+            z-index: 1;
+        }
+
+        #infoFrame .preview img:nth-child(4) {
+            grid-column: 4;
+            grid-row: 1;
+            z-index: 1;
+        }
+
+        #infoFrame .preview .back-card {
+            grid-column: 4;
+            grid-row: 1;
+            z-index: 0;
         }
 
         #infoFrame .start-btn {
@@ -153,6 +175,10 @@
             background: none;
             padding: 0;
             margin-bottom: 10px;
+        }
+
+        #infoFrame .start-btn img {
+            height: 52px;
         }
 
         #infoFrame .content-layer {
@@ -168,52 +194,53 @@
         /* GAME FRAME */
 
         #gameFrame {
-            background: #FEE451;
+            background: url("media/bg-game.jpg") center / cover no-repeat;
             padding: 0;
             flex-direction: column;
             overflow: hidden;
         }
 
+        #gameFrame .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 320px;
+        }
+
         #gameFrame .game-header {
+            position: relative;
             text-align: center;
-            padding: 12px 0 4px 0;
+            margin: 80px 0 0 0;
             flex-shrink: 0;
         }
 
-        #gameFrame .timer-bar {
+        #gameFrame .timer-bg {
+            display: block;
             margin: auto;
-            width: 40%;
-            background: #000;
-            font-size: 18px;
+            width: 140px;
+        }
+
+        #gameFrame .timer-bar {
+            font-family: "BlinkerBold", sans-serif;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #E1010C;
+            font-size: 24px;
             font-weight: 900;
             letter-spacing: 1px;
-            padding: 6px 8px;
-        }
-
-        #gameFrame .game-title {
-            color: #000;
-            font-size: 16px;
-            font-weight: 800;
-            margin: 8px 0 2px 0;
-        }
-
-        #gameFrame .game-subtitle {
-            color: #000;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
+            padding: 0 0 6px 0;
         }
 
         #grid {
+            margin-top: -8px;
             flex: 1;
             display: grid;
             grid-template-columns: repeat(2, auto);
-            gap: 16px 42px;
+            gap: 12px 12px;
             justify-content: center;
             align-content: center;
-            padding: 8px 16px;
-            margin-bottom: 16px;
         }
 
         .card {
@@ -237,59 +264,86 @@
         }
 
         .matched {
-            outline: 3px solid #E1010C;
+            outline: 2px solid #E1010C;
         }
 
         /* OOPS */
 
         #oops {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            width: 320px;
+            top: 0;
+            left: 0;
             opacity: 0;
             pointer-events: none;
             z-index: 10;
         }
 
-        /* RESULT */
+        /* LOSE */
 
-        #resultFrame {
-            background: #FEE451;
+        #loseFrame {
+            background: url("media/bg-akhir.jpg") center / cover no-repeat;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
         }
 
-        #resultFrame h2 {
-            font-size: 32px;
-            font-weight: 900;
-            color: #4CAF50;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
+        #loseFrame .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 320px;
         }
 
-        #resultFrame .replay-btn {
+        #loseFrame .title {
+            width: 246px;
+            margin: 0 0 16px 0;
+        }
+
+        #loseFrame .replay-btn {
             cursor: pointer;
             border: none;
             background: none;
             padding: 0;
-            margin-bottom: 24px;
+            margin-bottom: 10px;
         }
 
-        #resultFrame .replay-btn img {
-            height: 40px;
+        #loseFrame .replay-btn img {
+            height: 52px;
         }
 
-        #resultFrame .cta-link {
-            display: inline-block;
-            color: #000;
-            font-size: 12px;
-            font-weight: 700;
-            text-decoration: underline;
+        /* RESULT */
+
+        #resultFrame {
+            background: url("media/bg-akhir.jpg") center / cover no-repeat;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #resultFrame .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 320px;
+        }
+
+        #resultFrame .title-end-1 {
+            width: 240px;
+            margin-top: -64px;
+            margin-bottom: 16px;
+        }
+
+        #resultFrame .title-end-2 {
+            width: 160px;
+            margin-bottom: 12px;
+        }
+
+        #resultFrame .cta {
+            width: 160px;
             cursor: pointer;
-            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -303,16 +357,21 @@
         <div id="videoFrame" class="frame show">
 
             <video id="video" autoplay muted playsinline webkit-playsinline preload="auto">
-                <source src="media/320x480.mp4" type="video/mp4">
+                <source src="media/intro.mp4" type="video/mp4">
             </video>
 
             <div class="controls">
                 <div class="controls-left">
-                    <button onclick="toggleMute()">MUTE</button>
-                    <span class="separator">|</span>
-                    <button onclick="togglePlay()">PAUSE</button>
+                    <div onclick="toggleMute()">
+                        <img id="unmuteBtn" style="width: 70px;height: 70px;pointer-events:none;" src="media/unmute-btn.png" />
+                    </div>
+                    <div onclick="togglePlay()">
+                        <img id="pauseBtn" style="width: 70px;height: 70px;pointer-events:none;" src="media/pause-btn.png" />
+                    </div>
                 </div>
-                <button class="skip-btn" onclick="skipVideo()">SKIP</button>
+                <div class="skip-btn" onclick="skipVideo()">
+                    <img style="width: 120px;height: 60px;pointer-events:none;" src="media/skip-btn.png" />
+                </div>
             </div>
 
         </div>
@@ -323,16 +382,17 @@
 
             <div class="content-layer">
 
-                <img class="lego-logo" src="media/logo.jpg">
+                <img class="header" src="media/header.png">
+                <img class="char" src="media/char.png">
                 
-                <h2>MEMORY GAME</h2>
-                <p class="subtitle">COCOKKAN GAMBAR-GAMBAR DIBAWAH INI</p>
+                <img class="title" src="media/title.png">
 
                 <div class="preview">
-                    <img src="media/a.png">
-                    <img src="media/b.png">
-                    <img src="media/c.png">
-                    <img src="media/d.png">
+                    <img src="media/card-1.png">
+                    <img src="media/card-2.png">
+                    <img src="media/card-3.png">
+                    <img src="media/card-4.png">
+                    <img class="back-card" src="media/back-card.png">
                 </div>
 
                 <button class="start-btn" onclick="startGame()">
@@ -347,41 +407,53 @@
 
         <div id="gameFrame" class="frame">
 
+            <img class="header" src="media/header.png">
+
             <div class="game-header">
-                <div class="timer-bar"><span id="time">60</span> DETIK</div>
-                <div class="game-title">MEMORY GAME</div>
-                <div class="game-subtitle">COCOKKAN GAMBAR-GAMBAR DIBAWAH INI</div>
+                <img class="timer-bg" src="media/bg-countdown.png" />
+                <div class="timer-bar"><span id="time">30</span> DETIK</div>
             </div>
 
             <div id="grid"></div>
 
-            <img id="oops" src="media/oops.png">
+            <img id="oops" src="media/ops.png">
 
+        </div>
+
+        <!-- LOSE FRAME -->
+
+        <div id="loseFrame" class="frame">
+
+            <img class="header" src="media/header.png">
+
+            <img class="title" src="media/title-lose.png">
+
+            <button class="replay-btn" onclick="restart()">
+                <img src="media/replay-btn.png" alt="Main Lagi">
+            </button>
         </div>
 
         <!-- RESULT FRAME -->
 
         <div id="resultFrame" class="frame">
 
-            <h2 id="resultText"></h2>
+            <img class="header" src="media/header.png">
 
-            <button class="replay-btn" onclick="restart()">
-                <img src="media/replay-btn.png" alt="Main Lagi">
-            </button>
+            <img class="title-end-1" src="media/title-end-1.png">
+            <img class="title-end-2" src="media/title-end-2.png">
 
-            <a class="cta-link" href="https://www.lego.com" target="_blank">Kunjungi LEGO.com</a>
+            <img class="cta" src="media/cta.png" onclick="action()">
 
         </div>
 
     </div>
 
     <script>
-
         const images = [
-            "media/a.png",
-            "media/b.png",
-            "media/c.png",
-            "media/d.png"
+            "media/card-1.png",
+            "media/card-2.png",
+            "media/card-3.png",
+            "media/card-4.png"
         ]
 
         const flipSound = new Audio("media/FlipSound.mp3")
@@ -397,7 +469,7 @@
         let second = null
         let lock = false
         let score = 0
-        let time = 60
+        let time = 30
         let timer
         let cards = []
 
@@ -409,6 +481,7 @@
             document.getElementById(id).classList.add("show")
 
             if (id === "infoFrame") animateInfoFrame()
+            if (id === "loseFrame") animateLoseFrame()
             if (id === "resultFrame") animateResultFrame()
 
         }
@@ -420,38 +493,48 @@
             const tl = gsap.timeline()
 
             // Logo drops in from top
-            tl.from("#infoFrame .lego-logo", {
+            tl.from("#infoFrame .header", {
                 y: -60,
                 opacity: 0,
                 duration: 0.5,
                 ease: "back.out(1.7)"
             })
 
+            .from("#infoFrame .char", {
+                y: 60,
+                opacity: 0,
+                duration: 0.5,
+                ease: "back.out(1.7)"
+            }, "-=0.25")
+
             // Title scales up with bounce
-            .from("#infoFrame h2", {
+            .from("#infoFrame .title", {
                 scale: 0,
                 opacity: 0,
                 duration: 0.5,
                 ease: "back.out(2.5)"
             }, "-=0.2")
 
-            // Subtitle slides in from right
-            .from("#infoFrame .subtitle", {
-                x: 80,
-                opacity: 0,
-                duration: 0.4,
-                ease: "power2.out"
-            }, "-=0.15")
-
             // Preview images pop in one by one
-            .from("#infoFrame .preview img", {
-                scale: 0,
-                opacity: 0,
-                rotation: -15,
-                duration: 0.35,
-                stagger: 0.1,
-                ease: "back.out(2)"
-            }, "-=0.1")
+            .fromTo(
+                "#infoFrame .preview img",
+                {
+                    scale: 0,
+                    opacity: 0,
+                    rotation: -40
+                },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    rotation: (i) => [-12, 0, 0, 6, 9][i], // final rotation
+                    x: (i) => [6, 2, -4, -12, -10][i],
+                    y: (i) => [26, 0, 8, 30, -12][i], 
+                    duration: 0.35,
+                    stagger: 0.1,
+                    ease: "back.out(2)"
+                },
+                "-=0.1"
+            )
 
             // Start button bounces up, then pulse
             .from("#infoFrame .start-btn", {
@@ -484,25 +567,24 @@
 
         }
 
-        /* RESULT FRAME ANIMATION */
+        /* LOSE FRAME ANIMATION */
 
-        function animateResultFrame() {
+        function animateLoseFrame() {
 
             // Kill any running pulse from infoFrame
             gsap.killTweensOf("#infoFrame .start-btn")
 
             const tl = gsap.timeline()
 
-            // Result text drops in with bounce
-            tl.from("#resultText", {
+            .from("#loseFrame .title", {
                 scale: 0,
                 opacity: 0,
-                duration: 0.6,
+                duration: 0.5,
                 ease: "back.out(2.5)"
             })
 
             // Replay button slides up
-            .from("#resultFrame .replay-btn", {
+            .from("#loseFrame .replay-btn", {
                 y: 40,
                 opacity: 0,
                 scale: 0.5,
@@ -515,13 +597,13 @@
                             repeatDelay: 2   // pause 2 seconds between pulses
                         });
 
-                        pulse.to("#resultFrame .replay-btn", {
+                        pulse.to("#loseFrame .replay-btn", {
                             scale: 1.08,
                             duration: 0.3,
                             ease: "sine.out"
                         });
 
-                        pulse.to("#resultFrame .replay-btn", {
+                        pulse.to("#loseFrame .replay-btn", {
                             scale: 1,
                             duration: 0.1,
                             ease: "sine.in"
@@ -529,13 +611,57 @@
                     }, 1000)
                 }
             }, "-=0.1")
+        }
+
+        /* RESULT FRAME ANIMATION */
+
+        function animateResultFrame() {
+
+            // Kill any running pulse from infoFrame
+            gsap.killTweensOf("#infoFrame .start-btn")
+
+            const tl = gsap.timeline()
+
+            tl.from("#resultFrame .title-end-1", {
+                y: -60,
+                opacity: 0,
+                duration: 0.5,
+                ease: "back.out(1.7)"
+            })
+
+            .from("#resultFrame .title-end-2", {
+                scale: 0,
+                opacity: 0,
+                duration: 0.5,
+                ease: "back.out(2.5)"
+            }, "-=0.2")
 
             // CTA link fades in
-            .from("#resultFrame .cta-link", {
+            .from("#resultFrame .cta", {
                 y: 20,
                 opacity: 0,
                 duration: 0.4,
-                ease: "power2.out"
+                ease: "power2.out",
+                onComplete: () => {
+                    setTimeout(() => {
+                        const pulse = gsap.timeline({
+                            repeat: -1,
+                            repeatDelay: 2   // pause 2 seconds between pulses
+                        });
+
+                        pulse.to("#resultFrame .cta", {
+                            scale: 1.08,
+                            duration: 0.3,
+                            ease: "sine.out"
+                        });
+
+                        pulse.to("#resultFrame .cta", {
+                            scale: 1,
+                            duration: 0.1,
+                            ease: "sine.in"
+                        });
+                    }, 1000)
+                }
             }, "-=0.1")
 
         }
@@ -546,13 +672,44 @@
 
         video.onended = () => showFrame("infoFrame")
 
+        video.addEventListener("volumechange", updateMuteButton)
+        video.addEventListener("play", updatePlayButton)
+        video.addEventListener("pause", updatePlayButton)
+        video.addEventListener("loadedmetadata", () => {
+            updateMuteButton()
+            updatePlayButton()
+        })
+
+        function updateMuteButton() {
+            const btn = document.getElementById("unmuteBtn")
+
+            if (video.muted) {
+                btn.src = "media/unmute-btn.png"
+            } else {
+                btn.src = "media/mute-btn.png"
+            }
+        }
+
+        function updatePlayButton() {
+            const btn = document.getElementById("pauseBtn")
+
+            if (video.paused) {
+                btn.src = "media/play-btn.png"
+            } else {
+                btn.src = "media/pause-btn.png"
+            }
+        }
+
         function toggleMute() {
             video.muted = !video.muted
         }
 
         function togglePlay() {
-            if (video.paused) video.play()
-            else video.pause()
+            if (video.paused) {
+                video.play()
+            } else {
+                video.pause()
+            }
         }
 
         function skipVideo() {
@@ -588,8 +745,8 @@
                 card.rotation = 0
 
                 card.innerHTML = `
-                <img class="back" src="media/back.png">
-                <img class="front" src="${src}">
+                <img class="back" style="width: 76px;height: 76px;" src="media/back-card.png">
+                <img class="front" style="width: 76px;height: 76px;" src="${src}">
                 `
 
                 card.onclick = () => flip(card)
@@ -738,9 +895,9 @@
             showFrame("gameFrame")
 
             score = 0
-            time = 60
+            time = 30
 
-            document.getElementById("time").textContent = 60
+            document.getElementById("time").textContent = 30
 
             buildBoard()
 
@@ -754,8 +911,6 @@
 
             clearInterval(timer)
 
-            document.getElementById("resultText").innerText = "ANDA MENANG!"
-
             showFrame("resultFrame")
 
         }
@@ -766,9 +921,7 @@
 
             clearInterval(timer)
 
-            document.getElementById("resultText").innerText = "ANDA KALAH!"
-
-            showFrame("resultFrame")
+            showFrame("loseFrame")
 
         }
 
@@ -779,17 +932,25 @@
             showFrame("gameFrame")
 
             score = 0
-            time = 60
+            time = 30
             first = null
             second = null
             lock = false
 
-            document.getElementById("time").textContent = 60
+            document.getElementById("time").textContent = 30
 
             buildBoard()
 
             startTimer()
 
+        }
+
+        function action() {
+            const url = typeof clickTag !== "undefined"
+                ? clickTag
+                : "https://example.com";
+
+            window.open(url, "_blank");
         }
 
     </script>

@@ -302,13 +302,9 @@
 
         <div id="videoFrame" class="frame show">
 
-            <video id="video" autoplay muted playsinline webkit-playsinline>
+            <video id="video" autoplay muted playsinline webkit-playsinline preload="auto">
                 <source src="media/320x480.mp4" type="video/mp4">
             </video>
-
-            <div id="videoOverlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);cursor:pointer;z-index:5">
-                <span style="color:#fff;font-size:18px;font-weight:bold">TAP TO PLAY</span>
-            </div>
 
             <div class="controls">
                 <div class="controls-left">
@@ -390,6 +386,12 @@
 
         const flipSound = new Audio("media/FlipSound.mp3")
         const matchSound = new Audio("media/MatchSound.mp3")
+
+        function playSound(audio) {
+            var s = audio.cloneNode()
+            s.play()
+            s.onended = function() { s = null }
+        }
 
         let first = null
         let second = null
@@ -541,21 +543,8 @@
         /* VIDEO */
 
         const video = document.getElementById("video")
-        const videoOverlay = document.getElementById("videoOverlay")
 
         video.onended = () => showFrame("infoFrame")
-
-        // Safari autoplay fix
-        var playAttempt = video.play()
-        if (playAttempt !== undefined) {
-            playAttempt.catch(function() {
-                videoOverlay.style.display = "flex"
-                videoOverlay.onclick = function() {
-                    videoOverlay.style.display = "none"
-                    video.play()
-                }
-            })
-        }
 
         function toggleMute() {
             video.muted = !video.muted
@@ -626,8 +615,7 @@
             if (card === first) return
             if (card.classList.contains("matched")) return
 
-            flipSound.currentTime = 0
-            flipSound.play()
+            playSound(flipSound)
 
             gsap.to(card, {
                 rotationY: 180,
@@ -662,8 +650,7 @@
                 first.classList.add("matched")
                 second.classList.add("matched")
 
-                matchSound.currentTime = 0
-                matchSound.play()
+                playSound(matchSound)
 
                 score++
 

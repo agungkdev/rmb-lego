@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* PHONE FRAME */
+
+        .phone-wrapper {
+            position: relative;
+            width: 375px; 
+            filter: drop-shadow(0 20px 50px rgba(0,0,0,0.15));
+        }
+
+        .phone-bezel {
+            width: 100%;
+            display: block;
+            position: relative;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* SCREEN AREA */
+
+        .phone-screen {
+            position: absolute;
+            top: 3.2%;
+            left: 6.6%;
+            width: 86.8%;
+            height: 93.6%;
+            overflow: hidden;
+            border-radius: 48px;
+            background: #fff;
+            z-index: 1;
+        }
+
+        /* APP UI */
+
+        .app-status-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .app-header {
+            background: #fff;
+            color: #1a1a1b;
+            text-align: left;
+            padding: 12px 20px;
+            font-weight: 700;
+            font-size: 22px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-header .profile {
+            width: 32px;
+            height: 32px;
+            background: #4CAF50;
+            border-radius: 50%;
+        }
+
+        .app-feed {
+            height: calc(100% - 100px);
+            overflow-y: auto;
+            padding: 16px;
+            background: #f8f9fa;
+        }
+
+        .article {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .article-category {
+            color: #4CAF50;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .article h1 {
+            font-size: 18px;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            color: #1a1a1b;
+        }
+
+        .article img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 4px 0 12px 0;
+            display: block;
+        }
+
+        .article p {
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+            color: #4b4b4b;
+        }
+        
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* ADP OVERLAY */
+        #adp_mobile_iframe_container {
+            z-index: 100 !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="phone-wrapper">
+
+        <!-- iPhone frame -->
+        <img class="phone-bezel" src="assets/iphone-bazel.png">
+
+        <!-- Screen -->
+        <div class="phone-screen">
+            
+            <div class="app-status-bar">
+                <span>9:41</span>
+                <div style="display:flex; gap: 4px;">
+                    <span>📶</span>
+                    <span>🔋</span>
+                </div>
+            </div>
+
+            <div class="app-header">
+                News Feed
+                <div class="profile"></div>
+            </div>
+
+            <div class="app-feed">
+
+                <article class="article">
+                    <span class="article-category">Technology</span>
+                    <h1>The Journey of Mockup Design: How AI is Changing the Game</h1>
+
+                    <img src="https://ads.agungkdev.com/creatives/test.jpg">
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+                    
+                    <div class="article-footer">
+                        <span>5 min read</span>
+                        <span>2 hours ago</span>
+                    </div>
+                </article>
+
+                <article class="article">
+                    <span class="article-category">Entertainment</span>
+                    <h1>New LEGO Bricks Collection Revealed for 2026</h1>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
+                    <div class="article-footer">
+                        <span>3 min read</span>
+                        <span>4 hours ago</span>
+                    </div>
+                </article>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script id="adp_load_mobile_script" src="https://ads.agungkdev.com/creatives/script/adp_load_mobile.js"
+        data-iframe-id="adp_mobile_iframe"
+        data-iframe-url="https://ads.agungkdev.com/creatives/script/adp_mobile_iframe.js"
+        data-adpmobile="../../index.html" 
+        data-adpmobilesize="320x480" 
+        data-adpmobiletype="html5"
+        data-landingpage="https://agungkdev.com" 
+        data-popup="true" 
+        data-closebutton="true" 
+        data-autoclose="false"
+        data-autocloseduration="0" 
+        data-background="false" 
+        data-backup-img="false" 
+        data-backup-img-file="">
+    </script>
+
+</body>
+
+</html>

@@ -13,7 +13,7 @@
             font-family: "BlinkerBold";
             src: url("fonts/blinkerbold.ttf") format("truetype");
         }
-            
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -65,7 +65,7 @@
 
         .controls {
             position: absolute;
-            bottom: 48px;
+            bottom: 6px;
             left: 0;
             right: 0;
             display: flex;
@@ -83,18 +83,18 @@
 
         .controls-left div {
             width: 40px;
-            height: 40px; 
-            display: flex; 
-            align-items: center; 
+            height: 40px;
+            display: flex;
+            align-items: center;
             justify-content: center;
             cursor: pointer;
         }
 
         .skip-btn {
             width: 80px;
-            height: 40px; 
-            display: flex; 
-            align-items: center; 
+            height: 40px;
+            display: flex;
+            align-items: center;
             justify-content: center;
             cursor: pointer;
         }
@@ -359,10 +359,12 @@
             <div class="controls">
                 <div class="controls-left">
                     <div onclick="toggleMute()">
-                        <img id="unmuteBtn" style="width: 70px;height: 70px;pointer-events:none;" src="media/unmute-btn.png" />
+                        <img id="unmuteBtn" style="width: 70px;height: 70px;pointer-events:none;"
+                            src="media/unmute-btn.png" />
                     </div>
                     <div onclick="togglePlay()">
-                        <img id="pauseBtn" style="width: 70px;height: 70px;pointer-events:none;" src="media/pause-btn.png" />
+                        <img id="pauseBtn" style="width: 70px;height: 70px;pointer-events:none;"
+                            src="media/pause-btn.png" />
                     </div>
                 </div>
                 <div class="skip-btn" onclick="skipVideo()">
@@ -380,7 +382,7 @@
 
                 <img class="header" src="media/header.png">
                 <img class="char" src="media/char.png">
-                
+
                 <img class="title" src="media/title.png">
 
                 <div class="preview">
@@ -458,7 +460,7 @@
         function playSound(audio) {
             var s = audio.cloneNode()
             s.play()
-            s.onended = function() { s = null }
+            s.onended = function () { s = null }
         }
 
         let first = null
@@ -496,70 +498,70 @@
                 ease: "back.out(1.7)"
             })
 
-            .from("#infoFrame .char", {
-                y: 60,
-                opacity: 0,
-                duration: 0.5,
-                ease: "back.out(1.7)"
-            }, "-=0.25")
+                .from("#infoFrame .char", {
+                    y: 60,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "back.out(1.7)"
+                }, "-=0.25")
 
-            // Title scales up with bounce
-            .from("#infoFrame .title", {
-                scale: 0,
-                opacity: 0,
-                duration: 0.5,
-                ease: "back.out(2.5)"
-            }, "-=0.2")
-
-            // Preview images pop in one by one
-            .fromTo(
-                "#infoFrame .preview img",
-                {
+                // Title scales up with bounce
+                .from("#infoFrame .title", {
                     scale: 0,
                     opacity: 0,
-                    rotation: -40
-                },
-                {
-                    scale: 1,
-                    opacity: 1,
-                    rotation: (i) => [-12, 0, 0, 6, 9][i], // final rotation
-                    x: (i) => [6, 2, -4, -12, -10][i],
-                    y: (i) => [26, 0, 8, 30, -12][i], 
-                    duration: 0.35,
-                    stagger: 0.1,
-                    ease: "back.out(2)"
-                },
-                "-=0.1"
-            )
+                    duration: 0.5,
+                    ease: "back.out(2.5)"
+                }, "-=0.2")
 
-            // Start button bounces up, then pulse
-            .from("#infoFrame .start-btn", {
-                y: 40,
-                opacity: 0,
-                scale: 0.5,
-                duration: 0.5,
-                ease: "back.out(3)",
-                onComplete: () => {
-                    setTimeout(() => {
-                        const pulse = gsap.timeline({
-                            repeat: -1,
-                            repeatDelay: 2   // pause 2 seconds between pulses
-                        });
+                // Preview images pop in one by one
+                .fromTo(
+                    "#infoFrame .preview img",
+                    {
+                        scale: 0,
+                        opacity: 0,
+                        rotation: -40
+                    },
+                    {
+                        scale: 1,
+                        opacity: 1,
+                        rotation: (i) => [-12, 0, 0, 6, 9][i], // final rotation
+                        x: (i) => [6, 2, -4, -12, -10][i],
+                        y: (i) => [26, 0, 8, 30, -12][i],
+                        duration: 0.35,
+                        stagger: 0.1,
+                        ease: "back.out(2)"
+                    },
+                    "-=0.1"
+                )
 
-                        pulse.to("#infoFrame .start-btn", {
-                            scale: 1.08,
-                            duration: 0.3,
-                            ease: "sine.out"
-                        });
+                // Start button bounces up, then pulse
+                .from("#infoFrame .start-btn", {
+                    y: 40,
+                    opacity: 0,
+                    scale: 0.5,
+                    duration: 0.5,
+                    ease: "back.out(3)",
+                    onComplete: () => {
+                        setTimeout(() => {
+                            const pulse = gsap.timeline({
+                                repeat: -1,
+                                repeatDelay: 2   // pause 2 seconds between pulses
+                            });
 
-                        pulse.to("#infoFrame .start-btn", {
-                            scale: 1,
-                            duration: 0.1,
-                            ease: "sine.in"
-                        });
-                    }, 1000)
-                }
-            }, "-=0.1");
+                            pulse.to("#infoFrame .start-btn", {
+                                scale: 1.08,
+                                duration: 0.3,
+                                ease: "sine.out"
+                            });
+
+                            pulse.to("#infoFrame .start-btn", {
+                                scale: 1,
+                                duration: 0.1,
+                                ease: "sine.in"
+                            });
+                        }, 1000)
+                    }
+                }, "-=0.1");
 
         }
 
@@ -572,41 +574,41 @@
 
             const tl = gsap.timeline()
 
-            .from("#loseFrame .title", {
-                scale: 0,
-                opacity: 0,
-                duration: 0.5,
-                ease: "back.out(2.5)"
-            })
+                .from("#loseFrame .title", {
+                    scale: 0,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "back.out(2.5)"
+                })
 
-            // Replay button slides up
-            .from("#loseFrame .replay-btn", {
-                y: 40,
-                opacity: 0,
-                scale: 0.5,
-                duration: 0.5,
-                ease: "back.out(3)",
-                onComplete: () => {
-                    setTimeout(() => {
-                        const pulse = gsap.timeline({
-                            repeat: -1,
-                            repeatDelay: 2   // pause 2 seconds between pulses
-                        });
+                // Replay button slides up
+                .from("#loseFrame .replay-btn", {
+                    y: 40,
+                    opacity: 0,
+                    scale: 0.5,
+                    duration: 0.5,
+                    ease: "back.out(3)",
+                    onComplete: () => {
+                        setTimeout(() => {
+                            const pulse = gsap.timeline({
+                                repeat: -1,
+                                repeatDelay: 2   // pause 2 seconds between pulses
+                            });
 
-                        pulse.to("#loseFrame .replay-btn", {
-                            scale: 1.08,
-                            duration: 0.3,
-                            ease: "sine.out"
-                        });
+                            pulse.to("#loseFrame .replay-btn", {
+                                scale: 1.08,
+                                duration: 0.3,
+                                ease: "sine.out"
+                            });
 
-                        pulse.to("#loseFrame .replay-btn", {
-                            scale: 1,
-                            duration: 0.1,
-                            ease: "sine.in"
-                        });
-                    }, 1000)
-                }
-            }, "-=0.1")
+                            pulse.to("#loseFrame .replay-btn", {
+                                scale: 1,
+                                duration: 0.1,
+                                ease: "sine.in"
+                            });
+                        }, 1000)
+                    }
+                }, "-=0.1")
         }
 
         /* RESULT FRAME ANIMATION */
@@ -625,40 +627,40 @@
                 ease: "back.out(1.7)"
             })
 
-            .from("#resultFrame .title-end-2", {
-                scale: 0,
-                opacity: 0,
-                duration: 0.5,
-                ease: "back.out(2.5)"
-            }, "-=0.2")
+                .from("#resultFrame .title-end-2", {
+                    scale: 0,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "back.out(2.5)"
+                }, "-=0.2")
 
-            // CTA link fades in
-            .from("#resultFrame .cta", {
-                y: 20,
-                opacity: 0,
-                duration: 0.4,
-                ease: "power2.out",
-                onComplete: () => {
-                    setTimeout(() => {
-                        const pulse = gsap.timeline({
-                            repeat: -1,
-                            repeatDelay: 2   // pause 2 seconds between pulses
-                        });
+                // CTA link fades in
+                .from("#resultFrame .cta", {
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        setTimeout(() => {
+                            const pulse = gsap.timeline({
+                                repeat: -1,
+                                repeatDelay: 2   // pause 2 seconds between pulses
+                            });
 
-                        pulse.to("#resultFrame .cta", {
-                            scale: 1.08,
-                            duration: 0.3,
-                            ease: "sine.out"
-                        });
+                            pulse.to("#resultFrame .cta", {
+                                scale: 1.08,
+                                duration: 0.3,
+                                ease: "sine.out"
+                            });
 
-                        pulse.to("#resultFrame .cta", {
-                            scale: 1,
-                            duration: 0.1,
-                            ease: "sine.in"
-                        });
-                    }, 1000)
-                }
-            }, "-=0.1")
+                            pulse.to("#resultFrame .cta", {
+                                scale: 1,
+                                duration: 0.1,
+                                ease: "sine.in"
+                            });
+                        }, 1000)
+                    }
+                }, "-=0.1")
 
         }
 
@@ -942,9 +944,7 @@
         }
 
         function action() {
-            const url = typeof clickTag !== "undefined"
-                ? clickTag
-                : "https://example.com";
+            const url = "https://www.kidzstation.co.id/collections/lego-ramadhan-campaign-16-28-feb26?utm_source=gamification&utm_medium=cpm&utm_campaign=P3_Brand_Gamification_LEGO-KS_Ramadan_Mar2026&utm_term=Core_All_24-55_LEGO-KS_Ramadan_Mar2026";
 
             window.open(url, "_blank");
         }

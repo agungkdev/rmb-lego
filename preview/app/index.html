@@ -21,20 +21,22 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 16px 0;
         }
 
         /* PHONE FRAME */
 
         .phone-wrapper {
             position: relative;
-            width: 450px; 
-            height: 920px;
+            width: 100%;
+            max-width: 450px; 
+            margin: auto;
             filter: drop-shadow(0 20px 50px rgba(0,0,0,0.15));
         }
 
         .phone-bezel {
             width: 100%;
+            height: auto;
             display: block;
             position: relative;
             z-index: 10;
@@ -50,9 +52,10 @@
             width: 86.8%;
             height: 93.6%;
             overflow: hidden;
-            border-radius: 58px;
             background: #fff;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         /* APP UI */
@@ -65,6 +68,7 @@
             padding: 0 30px;
             font-size: 12px;
             font-weight: 600;
+            flex-shrink: 0;
         }
 
         .app-header {
@@ -78,6 +82,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .app-header .profile {
@@ -88,10 +93,11 @@
         }
 
         .app-feed {
-            height: calc(100% - 100px);
+            flex: 1;
             overflow-y: auto;
             padding: 16px;
             background: #f8f9fa;
+            -webkit-overflow-scrolling: touch;
         }
 
         .article {
@@ -143,8 +149,7 @@
             color: #888;
         }
 
-        /* ADP OVERLAY - Confined and Centered to phone screen */
-        .phone-screen #adp_mobile_iframe_container {
+        .phone-screen #adp__mobile_iframe_div {
             position: absolute !important;
             top: 50% !important;
             left: 50% !important;
@@ -154,7 +159,12 @@
             z-index: 100 !important;
             box-shadow: 0 0 60px rgba(0,0,0,0.2);
             border-radius: 8px;
-            overflow: hidden;
+        }
+
+        @media (max-width: 400px) {
+            .phone-screen #adp__mobile_iframe_div {
+                transform: translate(-50%, -50%) scale(0.9) !important;
+            }
         }
     </style>
 </head>

@@ -28,7 +28,8 @@
 
         .phone-wrapper {
             position: relative;
-            width: 375px; 
+            width: 450px; 
+            height: 920px;
             filter: drop-shadow(0 20px 50px rgba(0,0,0,0.15));
         }
 
@@ -49,7 +50,7 @@
             width: 86.8%;
             height: 93.6%;
             overflow: hidden;
-            border-radius: 48px;
+            border-radius: 58px;
             background: #fff;
             z-index: 1;
         }
@@ -142,14 +143,18 @@
             color: #888;
         }
 
-        /* ADP OVERLAY - Confined to phone screen */
+        /* ADP OVERLAY - Confined and Centered to phone screen */
         .phone-screen #adp_mobile_iframe_container {
             position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 320px !important;
+            height: 480px !important;
             z-index: 100 !important;
+            box-shadow: 0 0 60px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -180,26 +185,63 @@
             <div class="app-feed">
 
                 <article class="article">
-                    <span class="article-category">Technology</span>
-                    <h1>The Journey of Mockup Design: How AI is Changing the Game</h1>
-
+                    <span class="article-category">Gaming</span>
+                    <h1>Top 10 Mobile Games You Should Try This Year</h1>
                     <img src="https://ads.agungkdev.com/creatives/test.jpg">
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <div class="article-footer">
+                        <span>4 min read</span>
+                        <span>6 hours ago</span>
+                    </div>
+                </article>
 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
-                    
+                <article class="article">
+                    <span class="article-category">Technology</span>
+                    <h1>Developers Are Moving Faster with AI Coding Tools</h1>
+                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <div class="article-footer">
+                        <span>6 min read</span>
+                        <span>7 hours ago</span>
+                    </div>
+                </article>
+
+                <article class="article">
+                    <span class="article-category">Lifestyle</span>
+                    <h1>5 Simple Habits to Improve Your Productivity</h1>
+                    <p>Integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque sit amet.</p>
+                    <div class="article-footer">
+                        <span>3 min read</span>
+                        <span>9 hours ago</span>
+                    </div>
+                </article>
+
+                <article class="article">
+                    <span class="article-category">Technology</span>
+                    <h1>Why Progressive Web Apps Are Still Important in 2026</h1>
+                    <p>Arcu vitae elementum curabitur vitae nunc sed velit dignissim sodales ut eu sem integer vitae.</p>
                     <div class="article-footer">
                         <span>5 min read</span>
-                        <span>2 hours ago</span>
+                        <span>12 hours ago</span>
+                    </div>
+                </article>
+
+                <article class="article">
+                    <span class="article-category">Business</span>
+                    <h1>Startups Continue to Invest in AI Infrastructure</h1>
+                    <p>Vestibulum lorem sed risus ultricies tristique nulla aliquet enim tortor at auctor urna.</p>
+                    <div class="article-footer">
+                        <span>4 min read</span>
+                        <span>1 day ago</span>
                     </div>
                 </article>
 
                 <article class="article">
                     <span class="article-category">Entertainment</span>
-                    <h1>New LEGO Bricks Collection Revealed for 2026</h1>
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
+                    <h1>Behind the Scenes of the Biggest Blockbuster Movie</h1>
+                    <p>Morbi non arcu risus quis varius quam quisque id diam vel quam elementum.</p>
                     <div class="article-footer">
-                        <span>3 min read</span>
-                        <span>4 hours ago</span>
+                        <span>7 min read</span>
+                        <span>1 day ago</span>
                     </div>
                 </article>
 
@@ -209,7 +251,7 @@
             <script id="adp_load_mobile_script" src="https://ads.agungkdev.com/creatives/script/adp_load_mobile.js"
                 data-iframe-id="adp_mobile_iframe"
                 data-iframe-url="https://ads.agungkdev.com/creatives/script/adp_mobile_iframe.js"
-                data-adpmobile="../../index.html" 
+                data-adpmobile="../../creative/index.html" 
                 data-adpmobilesize="320x480" 
                 data-adpmobiletype="html5"
                 data-landingpage="https://agungkdev.com" 
@@ -225,7 +267,6 @@
         </div>
 
     </div>
-
 
 </body>
 
